@@ -4,7 +4,7 @@
     "issuer": "https://www.example.com",
     "token_param": "id_token",
     "token_lifetime": 300,
-    "url": "https://oauth2.eid-6.account.tencentcs.com/v1/sso/login/jwt_v0/1102878596482998272/1151383032381308928/{appType}",
+    "url": "https://oauth2.eid-6.account.tencentcs.com/v1/sso/login/jwtp/1102878596482998272/1151383032381308928/kit/{app_type}",
     "app": "meeting"
   },
   "user": {

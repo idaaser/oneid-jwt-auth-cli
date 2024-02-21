@@ -3,7 +3,7 @@ module github.com/idaaser/oneid-jwt-auth-cli
 go 1.21.6
 
 require (
-	github.com/idaaser/oneid-jwt-auth v0.0.0-20240221050256-e641944b8e2b
+	github.com/idaaser/oneid-jwt-auth v1.0.0
 	github.com/spf13/cobra v1.8.0
 )
 
