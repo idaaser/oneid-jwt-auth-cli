@@ -32,10 +32,11 @@ var (
 
 type (
 	config struct {
-		f    string
-		c    *auth.Config
-		IDP  idp  `json:"idp"`
-		User user `json:"user"`
+		f     string
+		c     *auth.Config
+		IDP   idp            `json:"idp"`
+		User  user           `json:"user"`
+		Claim map[string]any `json:"claim"`
 	}
 
 	idp struct {
@@ -71,10 +72,9 @@ func (c *config) init() error {
 
 	authc, err := auth.NewConfig(
 		c.IDP.BaseLoginURL,
+		c.IDP.Issuer,
 		c.IDP.Key,
-		auth.WithIssuer(c.IDP.Issuer),
 		auth.WithTokenLifetime(c.IDP.TokenLifetime),
-		auth.WithTokenParam(c.IDP.TokenParam),
 	)
 	if err != nil {
 		return err
@@ -85,6 +85,10 @@ func (c *config) init() error {
 }
 
 func (c *config) create() (string, error) {
+	if len(c.Claim) != 0 {
+		return c.c.NewLoginURLWithClaims(c.Claim, c.IDP.App)
+	}
+
 	return c.c.NewLoginURL(
 		auth.Userinfo{
 			ID:                c.User.ID,
