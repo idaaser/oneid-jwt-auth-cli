@@ -35,8 +35,7 @@ type (
 		f     string
 		c     *auth.Config
 		IDP   idp            `json:"idp"`
-		User  user           `json:"user"`
-		Claim map[string]any `json:"claim"`
+		Claim map[string]any `json:"user"`
 	}
 
 	idp struct {
@@ -85,20 +84,7 @@ func (c *config) init() error {
 }
 
 func (c *config) create() (string, error) {
-	if len(c.Claim) != 0 {
-		return c.c.NewLoginURLWithClaims(c.Claim, c.IDP.App)
-	}
-
-	return c.c.NewLoginURL(
-		auth.Userinfo{
-			ID:                c.User.ID,
-			Name:              c.User.Name,
-			PreferredUsername: c.User.Username,
-			Email:             c.User.Email,
-			Mobile:            c.User.Mobile,
-			Extension:         c.User.Extension,
-		},
-		c.IDP.App)
+	return c.c.NewLoginURLWithClaims(c.Claim, c.IDP.App)
 }
 
 func init() {

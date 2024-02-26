@@ -7,15 +7,11 @@
     "app": "meeting"
   },
   "user": {
-    "id": "f99530d4-8317-4900-bd02-0127bb8c44de",
-    "username": "zhangsan",
+    "sub": "f99530d4-8317-4900-bd02-0127bb8c44de",
+    "preferred_username": "zhangsan",
     "name": "张三",
     "email": "zhangsan@example.com",
-    "mobile": "+86 13411112222",
-    "extension": {
-      "picture": "https://www.example.com/avatar1.png"
-    }
-  },
-  "claim": {
+    "phone_number": "+86 13411112222",
+    "picture": "https://www.example.com/avatar1.png"
   }
 }
