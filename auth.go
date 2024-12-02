@@ -32,10 +32,12 @@ var (
 
 type (
 	config struct {
-		f     string
-		c     *auth.Config
-		IDP   idp            `json:"idp"`
-		Claim map[string]any `json:"user"`
+		f      string
+		signer *auth.Signer
+		IDP    idp            `json:"idp"`
+		Claim  map[string]any `json:"user"`
+
+		Params map[string]string `json:"params"`
 	}
 
 	idp struct {
@@ -69,7 +71,7 @@ func (c *config) init() error {
 		return err
 	}
 
-	authc, err := auth.NewConfig(
+	signer, err := auth.NewSigner(
 		c.IDP.BaseLoginURL,
 		c.IDP.Issuer,
 		c.IDP.Key,
@@ -79,12 +81,20 @@ func (c *config) init() error {
 		return err
 	}
 
-	c.c = authc
+	c.signer = signer
 	return nil
 }
 
+func (c *config) paramsKV() []string {
+	kvs := make([]string, 0, 2*len(c.Params))
+	for k, v := range c.Params {
+		kvs = append(kvs, k, v)
+	}
+	return kvs
+}
+
 func (c *config) create() (string, error) {
-	return c.c.NewLoginURLWithClaims(c.Claim, c.IDP.App)
+	return c.signer.NewLoginURLWithClaims(c.Claim, c.IDP.App, c.paramsKV()...)
 }
 
 func init() {
