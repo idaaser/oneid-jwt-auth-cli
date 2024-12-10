@@ -49,16 +49,6 @@ type (
 
 		App string `json:"app"`
 	}
-
-	user struct {
-		ID       string `json:"id"`
-		Username string `json:"username"`
-		Name     string `json:"name"`
-		Email    string `json:"email"`
-		Mobile   string `json:"mobile"`
-
-		Extension map[string]any `json:"extension"`
-	}
 )
 
 func (c *config) init() error {
