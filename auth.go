@@ -34,9 +34,8 @@ type (
 	config struct {
 		f      string
 		signer *auth.Signer
-		IDP    idp            `json:"idp"`
-		Claim  map[string]any `json:"user"`
-
+		IDP    idp               `json:"idp"`
+		User   auth.Userinfo     `json:"user"`
 		Params map[string]string `json:"params"`
 	}
 
@@ -62,9 +61,9 @@ func (c *config) init() error {
 	}
 
 	signer, err := auth.NewSigner(
-		c.IDP.BaseLoginURL,
-		c.IDP.Issuer,
 		c.IDP.Key,
+		c.IDP.Issuer,
+		c.IDP.BaseLoginURL,
 		auth.WithTokenLifetime(c.IDP.TokenLifetime),
 	)
 	if err != nil {
@@ -84,7 +83,7 @@ func (c *config) paramsKV() []string {
 }
 
 func (c *config) create() (string, error) {
-	return c.signer.NewLoginURLWithClaims(c.Claim, c.IDP.App, c.paramsKV()...)
+	return c.signer.NewLoginURL(c.User, c.IDP.App, c.paramsKV()...)
 }
 
 func init() {
